@@ -33,10 +33,7 @@ public final class PhoneNumberFactory {
      * @return an instance of PhoneNumber with randomly generated phone number value
      */ //TODO - Implement logic
     public static PhoneNumber createRandomPhoneNumber() throws InvalidPhoneNumberFormatException {
-        int area = RandomNumberFactory.createInteger(100,999);
-        int middle = RandomNumberFactory.createInteger(100,999);
-        int last = RandomNumberFactory.createInteger(1000, 9999);
-        return createPhoneNumberSafely(area, middle, last);
+        return createPhoneNumberSafely(RandomNumberFactory.createInteger(100,999), RandomNumberFactory.createInteger(100,999), RandomNumberFactory.createInteger(1000, 9999));
     }
 
 
@@ -49,9 +46,9 @@ public final class PhoneNumberFactory {
     public static PhoneNumber createPhoneNumberSafely(int areaCode, int centralOfficeCode, int phoneLineCode) throws InvalidPhoneNumberFormatException {
         String stringPhone = "("+areaCode+")-"+centralOfficeCode+"-"+phoneLineCode;
         try {
-            PhoneNumber phoneNumber = createPhoneNumber(stringPhone);
-            return phoneNumber;
+            return createPhoneNumber(stringPhone);
         } catch (InvalidPhoneNumberFormatException phonenoformex){
+            logger.info(String.format("exception: ", phonenoformex));
             return null;
         }
     }
@@ -62,6 +59,7 @@ public final class PhoneNumberFactory {
      * @throws InvalidPhoneNumberFormatException - thrown if phoneNumberString does not match acceptable format
      */ // TODO - Add throws statement to method signature
     public static PhoneNumber createPhoneNumber(String phoneNumberString) throws InvalidPhoneNumberFormatException {
+        logger.info(String.format("Creating phone number val", phoneNumberString));
         PhoneNumber phoneNumber = new PhoneNumber(phoneNumberString);
         return phoneNumber;
     }
